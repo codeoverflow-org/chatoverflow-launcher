@@ -29,10 +29,10 @@ lazy val copy = TaskKey[Unit]("copy", "Copies all packaged plugin jars to the ta
 
 // Tasks
 
+import org.codeoverflow.chatoverflow.build.BuildUtils.scalaMajorVersion
 import org.codeoverflow.chatoverflow.build.plugins.{PluginCreateWizard, PluginUtility}
 
 create := new PluginCreateWizard(streams.value.log).createPluginTask(pluginFolderNames.value, PluginCreateWizard.getApiVersion.value)
 fetch := new PluginUtility(streams.value.log).fetchPluginsTask(pluginFolderNames.value, pluginBuildFileName.value,
   pluginTargetFolderNames.value, apiProjectPath.value)
-copy := new PluginUtility(streams.value.log).copyPluginsTask(pluginFolderNames.value, pluginTargetFolderNames.value,
-  scalaVersion.value.split('.').dropRight(1).mkString("."))
+copy := new PluginUtility(streams.value.log).copyPluginsTask(pluginFolderNames.value, pluginTargetFolderNames.value, scalaMajorVersion.value)
