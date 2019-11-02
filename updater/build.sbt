@@ -1,5 +1,5 @@
 name := "chatoverflow-launcher-updater"
-version := "0.3" // Currently not used anywhere
+version := "3.0.0" // Currently not used anywhere
 assemblyJarName in assembly := "ChatOverflow.jar"
 
 // JSON Lib to read the json provided by GitHub Releases
