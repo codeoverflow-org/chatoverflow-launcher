@@ -1,9 +1,10 @@
-import java.io.{BufferedInputStream, File, FileInputStream}
+import java.io.File
 import java.net.{URL, URLClassLoader}
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.nio.file.{FileSystemException, Files, Paths}
 import java.text.DecimalFormat
 import java.util.Date
+import java.util.jar.JarFile
 import java.util.zip.ZipFile
 
 import CLI._
@@ -14,6 +15,7 @@ import org.json4s.{DefaultFormats, Formats}
 
 import scala.collection.JavaConverters._
 import scala.io.{Source, StdIn}
+import scala.util.hashing.MurmurHash3
 
 /**
  * Contains all logic to update the local installation of ChatOverflow.
@@ -215,12 +217,13 @@ object Updater {
               // Updater couldn't be updated, because Windows holds file locks on executing files including the updater.
               // Skip update of it, it shouldn't change anyway. We can update it on *nix system in the case we reeeeealy need to.
               // If it has changed and we can't auto-update, we do recommend the user to update the updater manually, but it is to the user to decide.
-              val currentIs = new BufferedInputStream(new FileInputStream(s"${conf.directory}/ChatOverflow.jar"))
-              val currentHash = Stream.continually(currentIs.read).takeWhile(_ != -1).map(_.toByte).hashCode()
-              val newIs = new BufferedInputStream(zip.getInputStream(entry))
-              val newHash = Stream.continually(newIs.read).takeWhile(_ != -1).map(_.toByte).hashCode()
+              val currentJar = new JarFile(s"${conf.directory}/ChatOverflow.jar")
 
-              if (currentHash != newHash) {
+              val tempNewJar = File.createTempFile("ChatOverflow-Updater", "")
+              Files.write(tempNewJar.toPath, is.readAllBytes())
+              val newJar = new JarFile(tempNewJar)
+
+              if (hashJar(currentJar) != hashJar(newJar)) {
                 println("The ChatOverflow updater has been updated and we can't update it for you when running on Windows.\n" +
                   "It's highly recommended to override the 'ChatOverflow.jar' of your installation with the new version\n" +
                   s"that can be found in the zip file at $zipFile.\n ChatOverflow may still work fine with this version," +
@@ -231,6 +234,8 @@ object Updater {
 
         is.close()
       })
+
+    zip.close()
 
     // Re-set the executable flag for *nix systems
     new File(conf.directory).listFiles()
@@ -244,7 +249,18 @@ object Updater {
   }
 
   /**
-   * Gets the local installed version, e.g. 0.3-prealpha.
+   * Hashes contents of the jar and doesn't include any timestamps,
+   * because they would be included in a hash of the full jar but doesn't say anything about the content.
+   */
+  def hashJar(jar: JarFile): Int = {
+    jar.entries().asScala
+      .map(entry => jar.getInputStream(entry))
+      .map(is => is.readAllBytes())
+      .map(arr => MurmurHash3.arrayHash(arr)).sum
+  }
+
+  /**
+   * Gets the local installed version, e.g. 3.0.0-prealpha.
    *
    * @return if successfully the version, otherwise None.
    */
