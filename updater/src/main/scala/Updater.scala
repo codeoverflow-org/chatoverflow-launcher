@@ -220,7 +220,7 @@ object Updater {
               val currentJar = new JarFile(s"${conf.directory}/ChatOverflow.jar")
 
               val tempNewJar = File.createTempFile("ChatOverflow-Updater", "")
-              Files.write(tempNewJar.toPath, is.readAllBytes())
+              Files.write(tempNewJar.toPath, Iterator.continually(is.read).takeWhile(_ != -1).map(_.toByte).toArray)
               val newJar = new JarFile(tempNewJar)
 
               if (hashJar(currentJar) != hashJar(newJar)) {
@@ -255,7 +255,7 @@ object Updater {
   def hashJar(jar: JarFile): Int = {
     jar.entries().asScala
       .map(entry => jar.getInputStream(entry))
-      .map(is => is.readAllBytes())
+      .map(is => Iterator.continually(is.read).takeWhile(_ != -1).map(_.toByte).toArray)
       .map(arr => MurmurHash3.arrayHash(arr)).sum
   }
 
