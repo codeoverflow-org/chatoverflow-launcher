@@ -3,9 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat Overflow README</title>
+    <script crossorigin="anonymous"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <!-- IMPORTANT: Only update the end-user README.file. Then plugin-dev README has to be overwritten with changed styling. -->
+    <style>
+        .onlyEndUser {
+            display: block;
+        }
+
+        .onlyPluginDev {
+            display: none;
+        }
+    </style>
+
+    <!-- IMPORTANT: UPDATE THE VERSION NUMBERS HERE, FOLLOWING THE DISPLAYED VERSIONS ON STARTUP -->
+    <script>
+        const versions = {
+            framework: "3.0.0",
+            api: "3.0.0",
+            rest: "3.0.0-3",
+            npm: "3.0.0-3",
+            gui: "3.0.0"
+        };
+
+        const releasesEndpoint = "https://api.github.com/repos/codeoverflow-org/chatoverflow/releases";
+
+        function updateVersions() {
+            $('#frameworkVersion').html(versions.framework);
+            $('#apiVersion').html(versions.api);
+            $('#restVersion').html(versions.rest);
+            $('#npmVersion').html(versions.npm);
+            $('#guiVersion').html(versions.gui);
+
+            $.get(releasesEndpoint, function (result) {
+                const tag_name = result[0].tag_name;
+                const newestVersion = tag_name.split("-")[0].split(".").map(value => parseInt(value));
+                const currentVersion = versions.framework.split(".").map(value => parseInt(value));
+
+                if (newestVersion[0] > currentVersion[0] ||
+                    (newestVersion[0] === currentVersion[0] && newestVersion[1] > currentVersion[1]) ||
+                    (newestVersion[0] === currentVersion[0] && newestVersion[1] === currentVersion[1] && newestVersion[2] > currentVersion[2])) {
+                    $('#newerVersion').html(tag_name);
+                    $('#newVersionAvailable').show();
+                }
+            });
+        }
+    </script>
+
+    <style>
+        #newVersionAvailable {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-<p>Thank you for downloading Chat Overflow! For more information, please visit <a href="http://codeoverflow.org">codeoverflow.org</a>!
-</p>
+<div class="header">
+    <div><img alt="Chat Overflow logo"
+              src="https://raw.githubusercontent.com/codeoverflow-org/chatoverflow/master/chatoverflow-logo.png"
+              width="100px"></div>
+    <div class="smallTitle">Hi, welcome to</div>
+    <div class="bigTitle">Chat Overflow</div>
+    <div class="deploymentType onlyEndUser" id="deploymentEndUser">END-USER-VERSION</div>
+    <div class="deploymentType onlyPluginDev" id="deploymentPluginDev">PLUGIN-DEV-VERSION</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="version">
+    <div class="mainVersion">You have downloaded version <span id="frameworkVersion"></span></div>
+    <div class="smallVersions">
+        API: <span id="apiVersion"></span>
+        REST: <span id="restVersion"></span>
+        NPM: <span id="npmVersion"></span>
+        GUI: <span id="guiVersion"></span>
+    </div>
+    <div id="newVersionAvailable">A newer version (<span id="newerVersion"></span>) is available. Please visit: TODO
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<div id="downloadInfo">Thank you for downloading Chat Overflow! For more information, please visit <a
+        href="http://codeoverflow.org">codeoverflow.org</a> or join our <a href="https://discord.gg/p2HDsme">discord
+    server</a>.
+</div>
+<div id="description">Code Overflow Motivation / Description</div>
+<div class="onlyEndUser" id="shortTutorialEndUser">TODO</div>
+<div class="onlyPluginDev" id="shortTutorialPluginDev">TODO</div>
+<div class="onlyEndUser" id="helpfulLinksEndUser">TODO</div>
+<div class="onlyPluginDev" id="helpfulLinksPluginDev">TODO</div>
+<script type="text/javascript">
+    updateVersions();
+</script>
 </body>
 </html>
