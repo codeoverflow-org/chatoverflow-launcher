@@ -10,7 +10,7 @@
     <!-- IMPORTANT: Only update the end-user README.file. Then plugin-dev README has to be overwritten with changed styling. -->
     <style>
         .onlyEndUser {
-            display: block;
+            display: inline-block;
         }
 
         .onlyPluginDev {
@@ -21,7 +21,7 @@
     <!-- IMPORTANT: UPDATE THE VERSION NUMBERS HERE, FOLLOWING THE DISPLAYED VERSIONS ON STARTUP -->
     <script>
         const versions = {
-            framework: "3.0.0",
+            framework: "0.0.0",
             api: "3.0.0",
             rest: "3.0.0-3",
             npm: "3.0.0-3",
@@ -56,44 +56,102 @@
         #newVersionAvailable {
             display: none;
         }
+        body {
+            text-align: center;
+            padding-top: 25px;
+            font-family: sans-serif;
+        }
+        .deploymentType {
+            margin-top: 5px;
+            background: lightgray;
+            width:fit-content;
+            font-family: monospace;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        #deploymentEndUser {
+            color: darkgreen
+        }
+        #deploymentPluginDev {
+            color: darkblue
+        }
+        .smallVersions {
+            font-size: small;
+        }
+        .versionNumber, #newerVersion {
+            font-family: monospace;
+        }
+        .divider {
+            border-top: 2px solid gray;
+            margin-top:15px;
+            margin-bottom: 30px;
+        }
+        .mainContent, .divider {
+            width: 600px;
+            display: inline-block;
+            text-align: left;
+        }
+        h1 {
+            font-size: 18pt;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+        .signature {
+            font-style: italic;
+            font-size: small;
+        }
+        #newVersionAvailable {
+            font-style: italic;
+            font-size: small;
+        }
+        a {
+            color: rgb(255, 136, 0);
+        }
     </style>
 </head>
 <body>
 <div class="header">
     <div><img alt="Chat Overflow logo"
               src="https://raw.githubusercontent.com/codeoverflow-org/chatoverflow/master/chatoverflow-logo.png"
-              width="100px"></div>
-    <div class="smallTitle">Hi, welcome to</div>
-    <div class="bigTitle">Chat Overflow</div>
-    <div class="deploymentType onlyEndUser" id="deploymentEndUser">END-USER-VERSION</div>
-    <div class="deploymentType onlyPluginDev" id="deploymentPluginDev">PLUGIN-DEV-VERSION</div>
+              width="350px"></div>
 </div>
-
-<div class="divider"></div>
 
 <div class="version">
-    <div class="mainVersion">You have downloaded version <span id="frameworkVersion"></span></div>
+    
     <div class="smallVersions">
-        API: <span id="apiVersion"></span>
-        REST: <span id="restVersion"></span>
-        NPM: <span id="npmVersion"></span>
-        GUI: <span id="guiVersion"></span>
+        API: <span class="versionNumber" id="apiVersion"></span>
+        REST: <span class="versionNumber" id="restVersion"></span>
+        NPM: <span class="versionNumber" id="npmVersion"></span>
+        GUI: <span class="versionNumber" id="guiVersion"></span>
     </div>
-    <div id="newVersionAvailable">A newer version (<span id="newerVersion"></span>) is available. Please visit: TODO
+    <div id="newVersionAvailable">A newer version (<span id="newerVersion"></span>) is available. <a href="https://github.com/codeoverflow-org/chatoverflow/releases">Download</a>
     </div>
 </div>
+
+<div class="deploymentType onlyEndUser" id="deploymentEndUser">END-USER-VERSION</div>
+<div class="deploymentType onlyPluginDev" id="deploymentPluginDev">PLUGIN-DEV-VERSION</div>
+
+<div>&nbsp;</div>
 
 <div class="divider"></div>
 
-<div id="downloadInfo">Thank you for downloading Chat Overflow! For more information, please visit <a
+<div>&nbsp;</div>
+
+<div class="mainContent">
+<div id="downloadInfo">Thank you for downloading <b>Chat Overflow <span id="frameworkVersion"></span></b>! For more information, please visit <a
         href="http://codeoverflow.org">codeoverflow.org</a> or join our <a href="https://discord.gg/p2HDsme">discord
-    server</a>.
+    server</a>. We're always happy about bug reports and feature requests. Have fun! <span class="signature">- The Code Overflow Team</span>
 </div>
+<h1>Introduction</h1>
 <div id="description">Code Overflow Motivation / Description</div>
+<h1>How to use</h1>
 <div class="onlyEndUser" id="shortTutorialEndUser">TODO</div>
 <div class="onlyPluginDev" id="shortTutorialPluginDev">TODO</div>
+<h1>More information</h1>
 <div class="onlyEndUser" id="helpfulLinksEndUser">TODO</div>
 <div class="onlyPluginDev" id="helpfulLinksPluginDev">TODO</div>
+
+</div>
 <script type="text/javascript">
     updateVersions();
 </script>
