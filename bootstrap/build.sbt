@@ -1,7 +1,7 @@
 name := "chatoverflow-launcher-bootstrap"
 // s"$version-$versionSuffix" has to represent the tag name of the current release inorder for the Updater to know the current version.
-version := "3.0.1"
-lazy val versionSuffix = "prealpha"
+version := "4.0.0"
+lazy val versionSuffix = "alpha"
 assemblyJarName in assembly := "ChatOverflow-Launcher.jar"
 
 // Coursier is used to download the deps of the framework
