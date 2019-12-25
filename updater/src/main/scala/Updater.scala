@@ -1,4 +1,5 @@
 import java.io.File
+import java.lang.reflect.InvocationTargetException
 import java.net.{URL, URLClassLoader}
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.nio.file.{FileSystemException, Files, Paths}
@@ -290,6 +291,7 @@ object Updater {
         else
           println(s"Main class of the launcher $launcherMainClass couldn't be found.")
       case _: NoSuchMethodException => println(s"Launcher jar is invalid: couldn't get main method.")
+      case e: InvocationTargetException => println(s"The launcher just threw an exception: ${e.getTargetException}")
       case e: Throwable => println(s"Launcher jar is invalid: $e");
     }
   }
