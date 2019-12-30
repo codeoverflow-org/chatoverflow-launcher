@@ -22,7 +22,7 @@ object CLI {
         else if (!f.isDirectory)
           Left("Path isn't a directory")
         else
-          Right()
+          Right(())
       )
 
     override def errorOnUnknownArgument: Boolean = false
