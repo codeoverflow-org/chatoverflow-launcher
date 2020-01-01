@@ -3,7 +3,7 @@
 
 // Main project config
 name := "ChatOverflow"
-version := "3.0.0"
+version := "4.0.0"
 
 // Main class and sub projects
 mainClass := Some("org.codeoverflow.chatoverflow.Launcher")
@@ -11,4 +11,7 @@ mainClass := Some("org.codeoverflow.chatoverflow.Launcher")
 // Settings
 inThisBuild(List(scalaVersion := "2.12.5"))
 
-fork in run := true // Start ChatOverflow in it's own java process when starting it with 'sbt run'
+import org.codeoverflow.chatoverflow.build.BuildUtils
+
+Global / javacOptions ++= BuildUtils.getJava8CrossOptions
+Global / scalacOptions ++= Seq("-deprecation", "-feature")
