@@ -25,7 +25,7 @@ object CLI {
         else if (!f.isDirectory)
           Left("Path isn't a directory")
         else
-          Right()
+          Right(())
       )
 
     opt[Unit]("help").action((_, c) => c.copy(help = true))
