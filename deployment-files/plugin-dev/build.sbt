@@ -9,8 +9,6 @@ version := "4.0.0"
 mainClass := Some("org.codeoverflow.chatoverflow.Launcher")
 
 // Settings
-inThisBuild(List(scalaVersion := "2.12.5"))
-
 import org.codeoverflow.chatoverflow.build.BuildUtils
 
 Global / javacOptions ++= BuildUtils.getJava8CrossOptions

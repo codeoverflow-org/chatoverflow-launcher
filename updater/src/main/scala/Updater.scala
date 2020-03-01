@@ -14,8 +14,8 @@ import org.fusesource.jansi.internal.CLibrary
 import org.json4s.jackson.JsonMethods.parse
 import org.json4s.{DefaultFormats, Formats}
 
-import scala.collection.JavaConverters._
 import scala.io.{Source, StdIn}
+import scala.jdk.CollectionConverters._
 import scala.util.hashing.MurmurHash3
 
 /**
