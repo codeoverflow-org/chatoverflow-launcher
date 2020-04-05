@@ -95,8 +95,12 @@ object Bootstrap {
       // Next are the existence of a framework, api and gui jar
       val jars = binDir.listFiles().filter(_.getName.endsWith(".jar"))
 
-      check(jars.exists(_.getName.toLowerCase.startsWith("chatoverflow_")), "There is no api jar in the bin directory.") &&
-        check(jars.exists(_.getName.toLowerCase.startsWith("chatoverflow-api")), "There is no api jar in the bin directory.") &&
+      check(jars.exists(_.getName.toLowerCase.startsWith("chatoverflow_")),
+        "There is no framework jar in the bin directory.") &&
+        check(jars.exists(f => f.getName.toLowerCase.startsWith("chatoverflow-api") && !f.getName.toLowerCase.contains("scala")),
+          "There is no api jar in the bin directory.") &&
+        check(jars.exists(_.getName.toLowerCase.startsWith("chatoverflow-api-scala")),
+          "There is no jar for the scala implicits in the bin directory.") &&
         check(jars.exists(_.getName.toLowerCase.startsWith("chatoverflow-gui")),
           "Note: No gui jar detected. The ChatOverflow gui won't be usable.", required = false)
     }

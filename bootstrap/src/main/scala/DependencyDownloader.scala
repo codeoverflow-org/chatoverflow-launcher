@@ -42,7 +42,7 @@ class DependencyDownloader(directory: String) {
           .filterNot(_._1 == Configuration.provided) // Provided deps are... well provided and no download is required
           .map(_._2)
           // We already have the api and gui locally inside the bin directory. We don't need to get it from a maven repository.
-          .filter(dep => dep.module.name.value != "chatoverflow-api" && dep.module.name.value != "chatoverflow-gui")
+          .filter(dep => !dep.module.name.value.startsWith("chatoverflow-"))
       case Left(errorMsg) =>
         println(s"Pom containing all required dependencies for the framework couldn't be parsed: $errorMsg")
         Seq()
